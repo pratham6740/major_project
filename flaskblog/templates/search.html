@@ -6,19 +6,40 @@
 <p>{{ query }}</p>
 
     {% for post in results %}
-        <article class="media content-section">
-          <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
-          <div class="media-body">
-            <div class="article-metadata">
-              <a class="mr-2" href="{{url_for('post' , post_id=post.id)}}">{{ post.author.username }}</a>
-              <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
-                <small class="text-muted">{{post.title}}</small>
-                <small class="text-muted">{{post.role}}</small>
-                <small class="text-muted">{{post.type}}</small>
-            </div>
-
-            <p class="article-content">{{ post.content }}</p>
+    <div class="card">
+      <!-- Upper Section -->
+      <div class="upper-section">
+          <div class="company-logo">
+              <img src="{{ post.company_logo_url }}" alt="Company Logo">
           </div>
-        </article>
+          <div class="detail-section">
+              <a href="#">{{ post.company_name }} | {{ post.role }} | {{ post.experience_level }} | {{ post.interview_date }}</a>
+              <div class="info">
+                  <span>{{ post.rounds }}</span> |
+                  <span>{{ post.coding_problems }}</span>
+              </div>
+          </div>
+      </div>
+      
+      <!-- Profile Details Section -->
+      <div class="profile-details">
+          <div class="profile-image">
+              <img src="{{ post.profile_image_url }}" alt="User Profile">
+          </div>
+          <div class="profile-info">
+              <div class="name">{{ post.author.username }}</div>
+              <div class="experience">{{ post.user_experience }}</div>
+              <div class="status">{{ post.status }}</div>
+          </div>
+      </div>
+
+      <!-- Engagement Section -->
+      <div class="engagement">
+          <div><i class="fas fa-eye"></i> {{ post.views }}</div>
+          <div><i class="fas fa-comments"></i> {{ post.comments }}</div>
+          <div><i class="fas fa-thumbs-up"></i> {{ post.upvotes }}</div>
+      </div>
+  </div>
+
     {% endfor %}
 {% endblock content %}
