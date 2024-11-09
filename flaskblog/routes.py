@@ -25,16 +25,16 @@ def base():
     return dict(form=form)
 
 #creating a search function
-@app.route("/search" , methods=["POST"])
+@app.route('/search')
 def search():
-    form = SearchForm()
-    posts= Post.query.all()
-    if form.validate_on_submit():
-       post.searched = form.searched.data
-       posts=posts.filter(Post.title(post.searched))
-       posts=posts.order_by(Post.date_posted).all()
-       return render_template('search.html', form=form, searched=post.searched, posts=posts)
+    # Get the search query from URL parameters (GET request)
+    search_query = request.args.get('searched', '')
+    print(search_query)
+    # Use SQLAlchemy to filter posts by company name using case-insensitive matching
+    results = Post.query.filter(Post.title.ilike(f"%{search_query}%")).all()
 
+    # Render the search results page with matched posts
+    return render_template('search.html', results=results, query=search_query)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
