@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+
+     <h1>Blog Posts</h1>
+
+<form method="get" action="{{ url_for('blog') }}">
+    <label for="category">Filter by Category:</label>
+    <select name="category" id="category">
+        <option value="">All Categories</option>
+        <option value="technology">Technology</option>
+        <option value="travel">Travel</option>
+        <!-- Add other categories as needed -->
+    </select>
+    <button type="submit">Filter</button>
+</form>
+
+<ul>
+    {% for post in blog_posts %}
+        <li>
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.content }}</p>
+            <p>Published on: {{ post.date_published.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+            <p>Category: {{ post.category }}</p>
+        </li>
+    {% endfor %}
+</ul>
+{% block content %}
+    {% for post in posts %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="{{url_for('post' , post_id=post.id)}}">{{ post.author.username }}</a>
+              <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+                <small class="text-muted">{{post.title}}</small>
+                <small class="text-muted">{{post.role}}</small>
+                <small class="text-muted">{{post.type}}</small>
+            </div>
+
+            <p class="article-content">{{ post.content }}</p>
+          </div>
+        </article>
+    {% endfor %}
+{% endblock content %}
+
